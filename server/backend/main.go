@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 	"os"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -307,7 +308,14 @@ func main() {
 	}()
 
 	r := gin.Default()
-
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 	// Frontend static files serving
 	frontendDistPath := path.Join("dist")
 	r.Static("/assets", path.Join(frontendDistPath, "assets"))               // Serve assets from /assets
