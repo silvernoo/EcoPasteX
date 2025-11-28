@@ -4,12 +4,11 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"path"
 	"strconv"
 	"strings"
 	"time"
-	"path"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -245,7 +244,7 @@ func extractImagePreview(value string) string {
 func extractTextPreview(value string) string {
 	// 移除 HTML 标签
 	text := stripHTMLTags(value)
-	
+
 	// 限制长度
 	maxLen := 200
 	if len(text) > maxLen {
@@ -306,20 +305,10 @@ func main() {
 
 	r := gin.Default()
 
-	// CORS 配置
-	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173", "http://localhost:3000", "http://localhost:1420"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
-
 	// Frontend static files serving
 	frontendDistPath := path.Join("..", "frontend", "dist")
-	r.Static("/assets", path.Join(frontendDistPath, "assets")) // Serve assets from /assets
-	r.StaticFile("/", path.Join(frontendDistPath, "index.html")) // Serve index.html for root
+	r.Static("/assets", path.Join(frontendDistPath, "assets"))               // Serve assets from /assets
+	r.StaticFile("/", path.Join(frontendDistPath, "index.html"))             // Serve index.html for root
 	r.StaticFile("/favicon.ico", path.Join(frontendDistPath, "favicon.ico")) // Serve favicon
 
 	r.NoRoute(func(c *gin.Context) {

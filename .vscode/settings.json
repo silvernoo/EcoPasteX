@@ -14,6 +14,7 @@
   "i18n-ally.displayLanguage": "zh-CN",
   "i18n-ally.keystyle": "nested",
   "i18n-ally.localesPaths": ["src/locales"],
+  "idf.pythonInstallPath": "/Users/flanchan/.venv/bin/python",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": "node_modules/typescript/lib"
 }
