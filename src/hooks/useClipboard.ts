@@ -134,6 +134,7 @@ export const useClipboard = (
                       globalStore.webhook.url,
                       "base64",
                     );
+                    break;
                   }
                 } catch (err) {
                   // biome-ignore lint/suspicious/noConsole: Log error for debugging
@@ -144,17 +145,26 @@ export const useClipboard = (
                 }
               }
             }
+          } else {
+            try {
+              const webhookValue =
+                type === "files"
+                  ? value
+                  : type === "image"
+                    ? sqlData.value
+                    : value;
+
+              await sendWebhook(
+                group as "text" | "image" | "files" | "html" | "rtf",
+                webhookValue,
+                globalStore.webhook.url,
+                data.subtype,
+              );
+            } catch (error) {
+              // biome-ignore lint/suspicious/noConsole: Log error for debugging
+              console.error("Failed to send webhook:", error);
+            }
           }
-
-          const webhookValue =
-            type === "files" ? value : type === "image" ? sqlData.value : value;
-
-          await sendWebhook(
-            group as "text" | "image" | "files" | "html" | "rtf",
-            webhookValue,
-            globalStore.webhook.url,
-            data.subtype,
-          );
         } catch (error) {
           // biome-ignore lint/suspicious/noConsole: Log error for debugging
           console.error("Failed to send webhook:", error);
