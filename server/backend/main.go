@@ -109,6 +109,9 @@ func handleWebhook(c *gin.Context) {
 			if strings.Contains(valueStr, "<img") && strings.Contains(valueStr, "src=") {
 				item.IsImage = true
 				item.Preview = "Image"
+			} else if isImageURL(valueStr) {
+				item.IsImage = true
+				item.Preview = "Image (URL)"
 			} else {
 				// 处理文本类型，提取预览
 				item.Preview = extractTextPreview(valueStr)
@@ -196,6 +199,8 @@ func getClipboardItems(c *gin.Context) {
 			if str, ok := items[i].Value.(string); ok {
 				if strings.Contains(str, "<img") && strings.Contains(str, "src=") {
 					items[i].IsImage = true
+				} else if isImageURL(str) {
+					items[i].IsImage = true
 				}
 			}
 		}
@@ -212,6 +217,20 @@ func getClipboardItems(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, response)
+}
+
+func isImageURL(s string) bool {
+	if !strings.HasPrefix(s, "http") {
+		return false
+	}
+	lower := strings.ToLower(s)
+	return strings.Contains(lower, ".jpg") ||
+		strings.Contains(lower, ".jpeg") ||
+		strings.Contains(lower, ".png") ||
+		strings.Contains(lower, ".gif") ||
+		strings.Contains(lower, ".webp") ||
+		strings.Contains(lower, ".bmp") ||
+		strings.Contains(lower, ".svg")
 }
 
 func extractImagePreview(value string) string {

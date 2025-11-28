@@ -250,18 +250,42 @@ const deleteItem = async (id) => {
   }
 }
 
+const cleanContent = (value) => {
+  if (typeof value !== 'string') return value
+  
+  // 如果包含图片标签，提取 src
+  if (value.includes('<img')) {
+    const match = value.match(/src="([^"]+)"/)
+    if (match) return match[1]
+  }
+
+  // 如果包含 HTML 标签，提取纯文本
+  if (value.includes('<') && value.includes('>')) {
+    const div = document.createElement('div')
+    div.innerHTML = value
+    return div.textContent || div.innerText || value
+  }
+
+  return value
+}
+
 const copyToClipboard = async (item) => {
   try {
-    if (item.isImage && typeof item.value === 'string' && item.value.startsWith('data:image')) {
+    let contentToCopy = item.value
+    if (typeof item.value === 'string') {
+      contentToCopy = cleanContent(item.value)
+    }
+
+    if (item.isImage && typeof contentToCopy === 'string' && contentToCopy.startsWith('data:image')) {
       // 复制图片
-      const response = await fetch(item.value)
+      const response = await fetch(contentToCopy)
       const blob = await response.blob()
       await navigator.clipboard.write([
         new ClipboardItem({ [blob.type]: blob })
       ])
     } else {
       // 复制文本
-      const text = typeof item.value === 'string' ? item.value : JSON.stringify(item.value)
+      const text = typeof contentToCopy === 'string' ? contentToCopy : JSON.stringify(contentToCopy)
       await navigator.clipboard.writeText(text)
     }
     // 可以添加一个临时的成功提示，这里简单用 alert 或者后续集成 toast
@@ -316,7 +340,7 @@ const getImageSrc = (value) => {
       return value
     }
     // 处理直接的图片 URL
-    if (value.startsWith('http') && (value.match(/\.(jpeg|jpg|gif|png|webp)$/i) || value.includes('images'))) {
+    if (value.startsWith('http') && (value.match(/\.(jpeg|jpg|gif|png|webp|bmp|svg)/i) || value.includes('images'))) {
       return value
     }
     // 处理 HTML 中的图片
