@@ -190,7 +190,7 @@
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 
-const API_BASE_URL = 'http://localhost:3000/api'
+const API_BASE_URL = 'api'
 
 const items = ref([])
 const loading = ref(false)

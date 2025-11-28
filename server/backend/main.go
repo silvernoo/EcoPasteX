@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"path"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -314,6 +315,19 @@ func main() {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
+
+	// Frontend static files serving
+	frontendDistPath := path.Join("..", "frontend", "dist")
+	r.Static("/assets", path.Join(frontendDistPath, "assets")) // Serve assets from /assets
+	r.StaticFile("/", path.Join(frontendDistPath, "index.html")) // Serve index.html for root
+	r.StaticFile("/favicon.ico", path.Join(frontendDistPath, "favicon.ico")) // Serve favicon
+
+	r.NoRoute(func(c *gin.Context) {
+		// If the path does not contain "/api", serve index.html
+		if !strings.HasPrefix(c.Request.RequestURI, "/api") {
+			c.File(path.Join(frontendDistPath, "index.html"))
+		}
+	})
 
 	// API 路由
 	api := r.Group("/api")
