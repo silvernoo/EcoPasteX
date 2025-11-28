@@ -253,7 +253,8 @@
         "clipboard": "クリップボード",
         "general": "共通設定",
         "history": "履歴",
-        "shortcut": "ショートカットキー"
+        "shortcut": "ショートカットキー",
+        "webhook": "Webhook"
       }
     },
     "settings": {
@@ -307,6 +308,20 @@
           "update_beta": "ベータ体験に参加する"
         },
         "title": "設定の更新"
+      },
+      "webhook_settings": {
+        "hints": {
+          "enabled": "有効にすると、クリップボードの内容が変更されたときに、設定されたURLにPOSTリクエストが送信されます",
+          "url": "クリップボードの内容が変更されると、このURLにPOSTリクエストが送信されます。テキストと画像タイプをサポートします。"
+        },
+        "label": {
+          "enabled": "Webhookを有効にする",
+          "url": "Webhook URL"
+        },
+        "placeholder": {
+          "url": "https://example.com/webhook"
+        },
+        "title": "Webhook設定"
       }
     },
     "shortcut": {

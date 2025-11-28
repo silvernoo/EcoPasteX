@@ -253,7 +253,8 @@
         "clipboard": "剪貼簿",
         "general": "通用設定",
         "history": "歷史記錄",
-        "shortcut": "快捷鍵"
+        "shortcut": "快捷鍵",
+        "webhook": "Webhook"
       }
     },
     "settings": {
@@ -307,6 +308,20 @@
           "update_beta": "參與測試版體驗"
         },
         "title": "更新設定"
+      },
+      "webhook_settings": {
+        "hints": {
+          "enabled": "啟用後，剪貼板內容變化時會發送 POST 請求到配置的 URL",
+          "url": "當剪貼板內容變化時，將向此 URL 發送 POST 請求。支持文字和圖片類型。"
+        },
+        "label": {
+          "enabled": "啟用 Webhook",
+          "url": "Webhook URL"
+        },
+        "placeholder": {
+          "url": "https://example.com/webhook"
+        },
+        "title": "Webhook 設定"
       }
     },
     "shortcut": {

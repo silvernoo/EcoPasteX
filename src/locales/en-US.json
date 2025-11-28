@@ -253,7 +253,8 @@
         "clipboard": "Clipboard",
         "general": "General",
         "history": "History",
-        "shortcut": "Shortcuts"
+        "shortcut": "Shortcuts",
+        "webhook": "Webhook"
       }
     },
     "settings": {
@@ -307,6 +308,20 @@
           "update_beta": "Participate in the beta experience"
         },
         "title": "Update Settings"
+      },
+      "webhook_settings": {
+        "hints": {
+          "enabled": "When enabled, a POST request will be sent to the configured URL when clipboard content changes",
+          "url": "A POST request will be sent to this URL when clipboard content changes. Supports text and image types."
+        },
+        "label": {
+          "enabled": "Enable Webhook",
+          "url": "Webhook URL"
+        },
+        "placeholder": {
+          "url": "https://example.com/webhook"
+        },
+        "title": "Webhook Settings"
       }
     },
     "shortcut": {

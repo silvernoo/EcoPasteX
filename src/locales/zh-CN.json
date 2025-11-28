@@ -253,7 +253,8 @@
         "clipboard": "剪贴板",
         "general": "通用设置",
         "history": "历史记录",
-        "shortcut": "快捷键"
+        "shortcut": "快捷键",
+        "webhook": "Webhook"
       }
     },
     "settings": {
@@ -307,6 +308,20 @@
           "update_beta": "参与测试版体验"
         },
         "title": "更新设置"
+      },
+      "webhook_settings": {
+        "hints": {
+          "enabled": "启用后，剪贴板内容变化时会发送 POST 请求到配置的 URL",
+          "url": "当剪贴板内容变化时，将向此 URL 发送 POST 请求。支持文本和图片类型。"
+        },
+        "label": {
+          "enabled": "启用 Webhook",
+          "url": "Webhook URL"
+        },
+        "placeholder": {
+          "url": "https://example.com/webhook"
+        },
+        "title": "Webhook 设置"
       }
     },
     "shortcut": {

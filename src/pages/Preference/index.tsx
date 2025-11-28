@@ -24,6 +24,7 @@ import Clipboard from "./components/Clipboard";
 import General from "./components/General";
 import History from "./components/History";
 import Shortcut from "./components/Shortcut";
+import Webhook from "./components/Webhook";
 
 const Preference = () => {
   const { t } = useTranslation();
@@ -84,6 +85,12 @@ const Preference = () => {
         icon: "i-lucide:keyboard",
         key: "shortcut",
         label: t("preference.menu.title.shortcut"),
+      },
+      {
+        content: <Webhook />,
+        icon: "i-lucide:webhook",
+        key: "webhook",
+        label: t("preference.menu.title.webhook"),
       },
       // {
       //   content: <Backup />,

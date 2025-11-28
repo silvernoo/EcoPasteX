@@ -16,8 +16,10 @@ import {
 import type { State } from "@/pages/Main";
 import { getClipboardTextSubtype } from "@/plugins/clipboard";
 import { clipboardStore } from "@/stores/clipboard";
+import { globalStore } from "@/stores/global";
 import type { DatabaseSchemaHistory } from "@/types/database";
 import { formatDate } from "@/utils/dayjs";
+import { sendWebhook } from "@/utils/webhook";
 
 export const useClipboard = (
   state: State,
@@ -101,6 +103,24 @@ export const useClipboard = (
       }
 
       insertHistory(sqlData);
+
+      // 发送 Webhook
+      if (globalStore.webhook.enabled && globalStore.webhook.url) {
+        try {
+          const webhookValue =
+            type === "files" ? value : type === "image" ? sqlData.value : value;
+
+          await sendWebhook(
+            group as "text" | "image" | "files" | "html" | "rtf",
+            webhookValue,
+            globalStore.webhook.url,
+            data.subtype,
+          );
+        } catch (error) {
+          // biome-ignore lint/suspicious/noConsole: Log error for debugging
+          console.error("Failed to send webhook:", error);
+        }
+      }
     }, options);
   });
 };

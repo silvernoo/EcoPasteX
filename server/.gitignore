@@ -1,0 +1,31 @@
+# Backend
+backend/ecopaste-server
+backend/*.exe
+backend/*.test
+backend/*.out
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.DS_Store
+
+# Database
+*.db
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

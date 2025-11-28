@@ -48,6 +48,12 @@ export interface GlobalStore {
     appVersion?: string;
     saveDataDir?: string;
   };
+
+  // Webhook 设置
+  webhook: {
+    enabled: boolean;
+    url: string;
+  };
 }
 
 export type ClickFeedback = "none" | "copy" | "paste";

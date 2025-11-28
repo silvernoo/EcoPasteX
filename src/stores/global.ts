@@ -30,4 +30,9 @@ export const globalStore = proxy<GlobalStore>({
     auto: false,
     beta: false,
   },
+
+  webhook: {
+    enabled: false,
+    url: "",
+  },
 });
