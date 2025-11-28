@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
+	"os"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -49,8 +49,11 @@ var (
 func initMongoDB() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
-	clientOptions := options.Client().ApplyURI("mongodb://root:ubuntu@192.168.0.10:27017")
+	uri := os.Getenv("MONGO_URI")
+	if uri == "" {
+		log.Fatal("MONGO_URI environment variable not set")
+	}
+	clientOptions := options.Client().ApplyURI(uri)
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		log.Fatal(err)
@@ -306,7 +309,7 @@ func main() {
 	r := gin.Default()
 
 	// Frontend static files serving
-	frontendDistPath := path.Join("..", "frontend", "dist")
+	frontendDistPath := path.Join("dist")
 	r.Static("/assets", path.Join(frontendDistPath, "assets"))               // Serve assets from /assets
 	r.StaticFile("/", path.Join(frontendDistPath, "index.html"))             // Serve index.html for root
 	r.StaticFile("/favicon.ico", path.Join(frontendDistPath, "favicon.ico")) // Serve favicon
